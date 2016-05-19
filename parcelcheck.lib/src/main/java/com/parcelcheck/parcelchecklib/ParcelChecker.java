@@ -44,6 +44,10 @@ public class ParcelChecker {
                 } else if (fieldType.isAssignableFrom(byte.class) || fieldType.getName().equals(Byte.class.getName())) {
                     field.set(newObjectToFillWithData, randomFieldGenerator.getNextByte());
                 }
+                else {
+                    Object filledObject = createFilledObject(fieldType.newInstance().getClass());
+                    field.set(newObjectToFillWithData, filledObject);
+                }
             }
         } catch (InstantiationException e) {
             e.printStackTrace();

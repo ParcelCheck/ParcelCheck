@@ -21,15 +21,15 @@ public class ParcelCheckerTest {
     public void setUp() throws Exception {
         randomFieldGenerator = mock(RandomFieldGenerator.class);
         when(randomFieldGenerator.getNextString()).thenReturn("string1", "string2", "string3", "string4", "string5");
-        when(randomFieldGenerator.getNextInt()).thenReturn(1, 2, 3, 4, 5);
-        when(randomFieldGenerator.getNextLong()).thenReturn(1L, 2L, 3L, 4L, 5L);
+        when(randomFieldGenerator.getNextInt()).thenReturn(1, 2);
+        when(randomFieldGenerator.getNextLong()).thenReturn(1L, 2L);
         when(randomFieldGenerator.getNextBoolean()).thenReturn(true);
-        when(randomFieldGenerator.getNextDouble()).thenReturn(1.0, 2.0, 3.0, 4.0, 5.0);
-        when(randomFieldGenerator.getNextFloat()).thenReturn(1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+        when(randomFieldGenerator.getNextDouble()).thenReturn(1.0, 2.0);
+        when(randomFieldGenerator.getNextFloat()).thenReturn(1.0f, 2.0f);
         when(randomFieldGenerator.getNextBigDecimal()).thenReturn(new BigDecimal(99));
         when(randomFieldGenerator.getNextBigInteger()).thenReturn(new BigInteger("101"));
-        when(randomFieldGenerator.getNextByte()).thenReturn((byte) 1, (byte) 2, (byte) 3, (byte) 4, (byte) 5);
-        when(randomFieldGenerator.getNextShort()).thenReturn((short) 1, (short) 2, (short) 3, (short) 4, (short) 5);
+        when(randomFieldGenerator.getNextByte()).thenReturn((byte) 1, (byte) 2);
+        when(randomFieldGenerator.getNextShort()).thenReturn((short) 1, (short) 2);
 
         testObject = new ParcelChecker(randomFieldGenerator);
     }
@@ -59,6 +59,47 @@ public class ParcelCheckerTest {
 
         assertEquals("string1", actual.getString());
 
+        assertPrimitiveIsFilled(actual);
+    }
+
+    @Test
+    public void oneLevelDeep() throws Exception {
+        Object filledObject = testObject.createFilledObject(LevelOneObject.class);
+
+        LevelOneObject actual = (LevelOneObject) filledObject;
+
+        assertNotNull(actual);
+        assertNotNull(actual.getPrimitiveFilledObject());
+        assertPrimitiveIsFilled(actual.getPrimitiveFilledObject());
+    }
+
+    @Test
+    public void twoLevelsDeep() throws Exception {
+        Object filledObject = testObject.createFilledObject(LevelTwoObject.class);
+
+        LevelTwoObject actual = (LevelTwoObject) filledObject;
+
+        assertNotNull(actual);
+        assertNotNull(actual.getLevelOneObject());
+        assertNotNull(actual.getLevelOneObject().getPrimitiveFilledObject());
+        assertPrimitiveIsFilled(actual.getLevelOneObject().getPrimitiveFilledObject());
+    }
+
+    @Test
+    public void threeLevelsDeep() throws Exception {
+        Object filledObject = testObject.createFilledObject(LevelThreeObject.class);
+
+        LevelThreeObject actual = (LevelThreeObject) filledObject;
+
+        assertNotNull(actual);
+        LevelTwoObject levelTwoObject = actual.getLevelTwoObject();
+        assertNotNull(levelTwoObject);
+        assertNotNull(levelTwoObject.getLevelOneObject());
+        assertNotNull(levelTwoObject.getLevelOneObject().getPrimitiveFilledObject());
+        assertPrimitiveIsFilled(levelTwoObject.getLevelOneObject().getPrimitiveFilledObject());
+    }
+
+    private void assertPrimitiveIsFilled(PrimitiveFilledObject actual) {
         assertEquals(1, actual.getInteger());
         assertEquals(2, actual.getClassInt().intValue());
 
