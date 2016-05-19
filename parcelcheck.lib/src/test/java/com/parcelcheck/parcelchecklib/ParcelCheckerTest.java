@@ -77,8 +77,6 @@ public class ParcelCheckerTest {
         assertEquals(99, actual.getBigDecimal().intValue());
         assertEquals(101, actual.getBigInteger().intValue());
 
-        //TODO short, Short, byte, Byte
-
         assertEquals((byte) 1, actual.getPrimitiveByte());
         assertEquals((byte) 2, actual.getClassByte().byteValue());
 
