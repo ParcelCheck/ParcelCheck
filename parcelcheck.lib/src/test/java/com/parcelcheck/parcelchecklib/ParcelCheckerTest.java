@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -123,5 +124,30 @@ public class ParcelCheckerTest {
 
         assertEquals((short) 1, actual.getPrimitiveShort());
         assertEquals((short) 2, actual.getClassShort().shortValue());
+    }
+
+    @Test
+    public void levelOneListObject() throws Exception {
+        Object filledObject = testObject.createFilledObject(LevelOneListObject.class);
+
+        LevelOneListObject actual = (LevelOneListObject) filledObject;
+        assertNotNull(actual.getListOfPrimitiveFilledObject());
+        assertEquals(1, actual.getListOfPrimitiveFilledObject().size());
+        assertPrimitiveIsFilled(actual.getListOfPrimitiveFilledObject().get(0));
+    }
+
+    @Test
+    public void levelTwoListObject() throws Exception {
+        Object filledObject = testObject.createFilledObject(LevelTwoListObject.class);
+
+        LevelTwoListObject actual = (LevelTwoListObject) filledObject;
+
+        ArrayList<LevelOneListObject> levelOneListObjects = actual.getLevelOneListObjects();
+        assertNotNull(levelOneListObjects);
+        assertEquals(1, levelOneListObjects.size());
+        ArrayList<PrimitiveFilledObject> listOfPrimitiveFilledObject = levelOneListObjects.get(0).getListOfPrimitiveFilledObject();
+        assertNotNull(listOfPrimitiveFilledObject);
+        assertEquals(1, listOfPrimitiveFilledObject.size());
+        assertPrimitiveIsFilled(listOfPrimitiveFilledObject.get(0));
     }
 }

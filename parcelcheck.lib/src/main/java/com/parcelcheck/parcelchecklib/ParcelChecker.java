@@ -1,8 +1,12 @@
 package com.parcelcheck.parcelchecklib;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ParcelChecker {
 
@@ -43,6 +47,13 @@ public class ParcelChecker {
                     field.set(newObjectToFillWithData, randomFieldGenerator.getNextBoolean());
                 } else if (fieldType.isAssignableFrom(byte.class) || fieldType.getName().equals(Byte.class.getName())) {
                     field.set(newObjectToFillWithData, randomFieldGenerator.getNextByte());
+                } else if (fieldType.isAssignableFrom(ArrayList.class)){
+                    ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
+                    Class<?> genericClass = (Class<?>) stringListType.getActualTypeArguments()[0];
+                    Object filledObject = createFilledObject(genericClass.newInstance().getClass());
+                    ArrayList<Object> value = new ArrayList<>();
+                    value.add(filledObject);
+                    field.set(newObjectToFillWithData, value);
                 }
                 else {
                     Object filledObject = createFilledObject(fieldType.newInstance().getClass());
