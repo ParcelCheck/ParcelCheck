@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 public class ParcelCheckerTest {
 
     private RandomFieldGenerator randomFieldGenerator;
-    private ParcelChecker testObject;
+    private ObjectHydrator testObject;
 
     @Before
     public void setUp() throws Exception {
@@ -32,7 +32,7 @@ public class ParcelCheckerTest {
         when(randomFieldGenerator.getNextByte()).thenReturn((byte) 1, (byte) 2);
         when(randomFieldGenerator.getNextShort()).thenReturn((short) 1, (short) 2);
 
-        testObject = new ParcelChecker(randomFieldGenerator);
+        testObject = new ObjectHydrator(randomFieldGenerator);
     }
 
     @Test

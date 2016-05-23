@@ -5,14 +5,12 @@ import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-public class ParcelChecker {
+public class ObjectHydrator {
 
     private final RandomFieldGenerator randomFieldGenerator;
 
-    public ParcelChecker(RandomFieldGenerator randomFieldGenerator){
+    public ObjectHydrator(RandomFieldGenerator randomFieldGenerator){
 
         this.randomFieldGenerator = randomFieldGenerator;
     }
