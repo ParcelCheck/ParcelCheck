@@ -30,3 +30,8 @@ proguard/
 
 # Android Studio captures folder
 captures/
+
+#other annoying files
+app/app.iml
+*.idea/*
+
