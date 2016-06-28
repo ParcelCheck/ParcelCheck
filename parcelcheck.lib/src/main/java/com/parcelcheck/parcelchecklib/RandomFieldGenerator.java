@@ -43,4 +43,8 @@ public class RandomFieldGenerator {
     public short getNextShort() {
         return 0;
     }
+
+    public char getNextChar() {
+        return 0;
+    }
 }

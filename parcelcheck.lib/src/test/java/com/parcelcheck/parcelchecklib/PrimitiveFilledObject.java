@@ -1,5 +1,8 @@
 package com.parcelcheck.parcelchecklib;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -25,11 +28,16 @@ public class PrimitiveFilledObject {
     BigDecimal bigDecimal;
     BigInteger bigInteger;
 
-    byte primitiveByte;
-    Byte classByte;
-
     short primitiveShort;
     Short classShort;
+
+    char primitiveChar;
+    Character classChar;
+
+    CharSequence charSequence;
+
+    byte primitiveByte;
+    Byte classByte;
 
     public int getInteger() {
         return integer;
@@ -97,5 +105,17 @@ public class PrimitiveFilledObject {
 
     public Short getClassShort() {
         return classShort;
+    }
+
+    public char getPrimitiveChar() {
+        return primitiveChar;
+    }
+
+    public Character getClassChar() {
+        return classChar;
+    }
+
+    public CharSequence getCharSequence() {
+        return charSequence;
     }
 }

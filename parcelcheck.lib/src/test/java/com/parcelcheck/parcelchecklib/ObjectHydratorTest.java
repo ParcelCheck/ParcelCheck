@@ -31,6 +31,7 @@ public class ObjectHydratorTest {
         when(randomFieldGenerator.getNextBigInteger()).thenReturn(new BigInteger("101"));
         when(randomFieldGenerator.getNextByte()).thenReturn((byte) 1, (byte) 2);
         when(randomFieldGenerator.getNextShort()).thenReturn((short) 1, (short) 2);
+        when(randomFieldGenerator.getNextChar()).thenReturn('a', 'b');
 
         testObject = new ObjectHydrator(randomFieldGenerator);
     }
@@ -124,6 +125,11 @@ public class ObjectHydratorTest {
 
         assertEquals((short) 1, actual.getPrimitiveShort());
         assertEquals((short) 2, actual.getClassShort().shortValue());
+
+        assertEquals('a', actual.getPrimitiveChar());
+        assertEquals('b', actual.getClassChar().charValue());
+
+        assertEquals( "string2", actual.getCharSequence());
     }
 
     @Test

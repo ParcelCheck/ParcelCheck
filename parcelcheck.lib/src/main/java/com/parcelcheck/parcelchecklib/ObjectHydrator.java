@@ -10,7 +10,7 @@ public class ObjectHydrator {
 
     private final RandomFieldGenerator randomFieldGenerator;
 
-    public ObjectHydrator(RandomFieldGenerator randomFieldGenerator){
+    public ObjectHydrator(RandomFieldGenerator randomFieldGenerator) {
 
         this.randomFieldGenerator = randomFieldGenerator;
     }
@@ -45,15 +45,16 @@ public class ObjectHydrator {
                     field.set(newObjectToFillWithData, randomFieldGenerator.getNextBoolean());
                 } else if (fieldType.isAssignableFrom(byte.class) || fieldType.getName().equals(Byte.class.getName())) {
                     field.set(newObjectToFillWithData, randomFieldGenerator.getNextByte());
-                } else if (fieldType.isAssignableFrom(ArrayList.class)){
+                } else if (fieldType.isAssignableFrom(char.class) || fieldType.getName().equals(Character.class.getName())) {
+                    field.set(newObjectToFillWithData, randomFieldGenerator.getNextChar());
+                } else if (fieldType.isAssignableFrom(ArrayList.class)) {
                     ParameterizedType stringListType = (ParameterizedType) field.getGenericType();
                     Class<?> genericClass = (Class<?>) stringListType.getActualTypeArguments()[0];
                     Object filledObject = createFilledObject(genericClass.newInstance().getClass());
                     ArrayList<Object> value = new ArrayList<>();
                     value.add(filledObject);
                     field.set(newObjectToFillWithData, value);
-                }
-                else {
+                } else {
                     Object filledObject = createFilledObject(fieldType.newInstance().getClass());
                     field.set(newObjectToFillWithData, filledObject);
                 }
