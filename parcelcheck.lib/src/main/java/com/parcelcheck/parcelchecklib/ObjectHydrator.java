@@ -11,10 +11,8 @@ public class ObjectHydrator {
     private final RandomFieldGenerator randomFieldGenerator;
 
     public ObjectHydrator(RandomFieldGenerator randomFieldGenerator) {
-
         this.randomFieldGenerator = randomFieldGenerator;
     }
-
 
     public Object createFilledObject(Class clazz) {
 
