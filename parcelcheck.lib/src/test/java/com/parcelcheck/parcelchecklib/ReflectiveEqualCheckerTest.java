@@ -112,6 +112,36 @@ public class ReflectiveEqualCheckerTest {
     }
 
     @Test
+    public void checkEqualityOfPrimitiveFilledObjectWithOneDifference() throws Exception {
+
+        PrimitiveFilledObject primitiveFilledObject1 = getPrimitive1();
+        PrimitiveFilledObject primitiveFilledObject2 = getPrimitive1();
+        primitiveFilledObject2.classFloat +=1;
+
+        assertFalse(testObject.checkEquality(primitiveFilledObject1, primitiveFilledObject2));
+    }
+
+    @Test
+    public void checkEqualityOfPrimitiveFilledObjectWithOneDifference2() throws Exception {
+
+        PrimitiveFilledObject primitiveFilledObject1 = getPrimitive1();
+        PrimitiveFilledObject primitiveFilledObject2 = getPrimitive1();
+        primitiveFilledObject2.string +=1;
+
+        assertFalse(testObject.checkEquality(primitiveFilledObject1, primitiveFilledObject2));
+    }
+
+    @Test
+    public void checkEqualityOfPrimitiveFilledObjectWithOneDifference3() throws Exception {
+
+        PrimitiveFilledObject primitiveFilledObject1 = getPrimitive1();
+        PrimitiveFilledObject primitiveFilledObject2 = getPrimitive1();
+        primitiveFilledObject2.bigDecimal = primitiveFilledObject2.bigDecimal.add(BigDecimal.ONE);
+
+        assertFalse(testObject.checkEquality(primitiveFilledObject1, primitiveFilledObject2));
+    }
+
+    @Test
     public void entirelyDifferentPrimitiveFilledObjectsNotEqual() {
 
         PrimitiveFilledObject primitiveFilledObject1 = getPrimitive1();
