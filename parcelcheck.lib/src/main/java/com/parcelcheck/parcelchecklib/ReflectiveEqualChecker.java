@@ -3,6 +3,8 @@ package com.parcelcheck.parcelchecklib;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.fail;
 
@@ -17,20 +19,42 @@ public class ReflectiveEqualChecker {
                 return o1.equals(o2);
 
             } else {
-                for (Field field : o1.getClass().getDeclaredFields()) {
-                    field.setAccessible(true);
-                    try {
-                        Object o1Field = field.get(o1);
-                        Object o2Field = field.get(o2);
-                        if(!checkEquality(o1Field, o2Field)){
-                            return false;
-                        };
-                    } catch (IllegalAccessException e) {
-                        fail("Could not access field");
-                        e.printStackTrace();
+                if(o1.getClass().isAssignableFrom(ArrayList.class)) {
+                    ArrayList list1 = (ArrayList) o1;
+                    ArrayList list2 = (ArrayList) o2;
+                    if(list1.size() == list2.size()){
+                        for(Object a : list1){
+                            boolean found = false;
+                            for(Object b : list2){
+                                if(checkEquality(a, b)){
+                                    found = true;
+                                }
+                            }
+                            if(!found){
+                                return false;
+                            }
+
+                        }
+                    } else{
+                        return false;
                     }
+
+                } else{
+                    for (Field field : o1.getClass().getDeclaredFields()) {
+                        field.setAccessible(true);
+                        try {
+                            Object o1Field = field.get(o1);
+                            Object o2Field = field.get(o2);
+                            if(!checkEquality(o1Field, o2Field)){
+                                return false;
+                            };
+                        } catch (IllegalAccessException e) {
+                            fail("Could not access field");
+                            e.printStackTrace();
+                        }
+                    }
+                    return true;
                 }
-                return true;
             }
         }
         return false;

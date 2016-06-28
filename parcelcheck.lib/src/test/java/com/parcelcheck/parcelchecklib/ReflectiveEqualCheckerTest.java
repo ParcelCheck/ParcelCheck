@@ -5,6 +5,9 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -16,6 +19,24 @@ public class ReflectiveEqualCheckerTest {
     @Before
     public void setUp() throws Exception {
         testObject = new ReflectiveEqualChecker();
+    }
+
+    @Test
+    public void listEquality() throws Exception {
+        List<PrimitiveFilledObject> primitiveFilledListA = Arrays.asList(getPrimitive1(), getPrimitive2());
+        List<PrimitiveFilledObject> primitiveFilledListB = Arrays.asList(getPrimitive1(), getPrimitive2());
+
+        assertTrue(testObject.checkEquality(primitiveFilledListA, primitiveFilledListB));
+    }
+
+    @Test
+    public void listInequality() throws Exception {
+        ArrayList<PrimitiveFilledObject> primitiveFilledListA = new ArrayList<>();
+        primitiveFilledListA.add(getPrimitive1());
+        ArrayList<PrimitiveFilledObject> primitiveFilledListB = new ArrayList<>();
+        primitiveFilledListB.add(getPrimitive2());
+
+        assertFalse(testObject.checkEquality(primitiveFilledListA, primitiveFilledListB));
     }
 
     @Test
