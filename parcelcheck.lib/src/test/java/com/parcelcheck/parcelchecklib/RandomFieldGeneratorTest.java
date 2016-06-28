@@ -11,8 +11,6 @@ public class RandomFieldGeneratorTest {
 
     @Test
     public void testValuesAreReturned() throws Exception {
-
-
         RandomFieldGenerator randomFieldGenerator = new RandomFieldGenerator();
 
         String string1 = randomFieldGenerator.getNextString();
