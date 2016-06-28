@@ -2,49 +2,55 @@ package com.parcelcheck.parcelchecklib;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Random;
+import java.util.UUID;
 
 public class RandomFieldGenerator {
+
+    private Random random = new Random();
+
     public String getNextString() {
-        return "string";
+        return UUID.randomUUID().toString();
     }
 
     public int getNextInt() {
-        return 0;
+        random = new Random();
+        return random.nextInt();
     }
 
     public boolean getNextBoolean() {
-        return false;
+        return random.nextBoolean();
     }
 
     public double getNextDouble() {
-        return 0;
+        return random.nextDouble();
     }
 
     public float getNextFloat() {
-        return 0;
+        return random.nextFloat();
     }
 
     public long getNextLong() {
-        return 0;
+        return random.nextLong();
     }
 
     public BigDecimal getNextBigDecimal() {
-        return null;
+        return new BigDecimal(random.nextDouble());
     }
 
     public BigInteger getNextBigInteger() {
-        return null;
+        return new BigInteger(15, random);
     }
 
     public byte getNextByte() {
-        return 0;
+        return (byte) random.nextInt();
     }
 
     public short getNextShort() {
-        return 0;
+        return (short) random.nextInt();
     }
 
     public char getNextChar() {
-        return 0;
+        return (char) random.nextInt();
     }
 }

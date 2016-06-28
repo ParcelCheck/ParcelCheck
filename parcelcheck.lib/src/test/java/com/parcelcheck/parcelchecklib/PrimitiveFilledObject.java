@@ -1,8 +1,5 @@
 package com.parcelcheck.parcelchecklib;
 
-import android.content.Intent;
-import android.os.Bundle;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
