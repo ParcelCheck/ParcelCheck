@@ -7,4 +7,8 @@ public class LevelTwoObject {
     public LevelOneObject getLevelOneObject() {
         return levelOneObject;
     }
+
+    public void setLevelOneObject(LevelOneObject levelOneObject) {
+        this.levelOneObject = levelOneObject;
+    }
 }

@@ -19,6 +19,85 @@ public class ReflectiveEqualCheckerTest {
     }
 
     @Test
+    public void levelOneObjectInequality() throws Exception {
+        LevelOneObject levelOneObjectA = new LevelOneObject();
+        LevelOneObject levelOneObjectB = new LevelOneObject();
+        levelOneObjectA.setPrimitiveFilledObject(getPrimitive1());
+        levelOneObjectB.setPrimitiveFilledObject(getPrimitive2());
+
+        assertFalse(testObject.checkEquality(levelOneObjectA, levelOneObjectB));
+    }
+
+    @Test
+    public void levelOneObjectEquality() throws Exception {
+        LevelOneObject levelOneObjectA = new LevelOneObject();
+        LevelOneObject levelOneObjectB = new LevelOneObject();
+        levelOneObjectA.setPrimitiveFilledObject(getPrimitive1());
+        levelOneObjectB.setPrimitiveFilledObject(getPrimitive1());
+
+        assertTrue(testObject.checkEquality(levelOneObjectA, levelOneObjectB));
+    }
+
+    @Test
+    public void levelThreeEquality() throws Exception {
+        LevelThreeObject levelThreeObjectA = new LevelThreeObject();
+        LevelThreeObject levelThreeObjectB = new LevelThreeObject();
+
+        LevelTwoObject levelTwoObjectA = new LevelTwoObject();
+        LevelOneObject levelOneObjectA = new LevelOneObject();
+        levelOneObjectA.setPrimitiveFilledObject(getPrimitive1());
+        levelTwoObjectA.setLevelOneObject(levelOneObjectA);
+        levelThreeObjectA.setLevelTwoObject(levelTwoObjectA);
+
+        LevelTwoObject levelTwoObjectB = new LevelTwoObject();
+        LevelOneObject levelOneObjectB = new LevelOneObject();
+        levelOneObjectB.setPrimitiveFilledObject(getPrimitive1());
+        levelTwoObjectB.setLevelOneObject(levelOneObjectB);
+        levelThreeObjectB.setLevelTwoObject(levelTwoObjectB);
+        levelThreeObjectB.setLevelTwoObject(levelTwoObjectB);
+
+        assertTrue(testObject.checkEquality(levelThreeObjectA, levelThreeObjectB));
+    }
+
+    @Test
+    public void levelThreeInequality() throws Exception {
+        LevelThreeObject levelThreeObjectA = new LevelThreeObject();
+        LevelThreeObject levelThreeObjectB = new LevelThreeObject();
+
+        LevelTwoObject levelTwoObjectA = new LevelTwoObject();
+        LevelOneObject levelOneObjectA = new LevelOneObject();
+        levelOneObjectA.setPrimitiveFilledObject(getPrimitive1());
+        levelTwoObjectA.setLevelOneObject(levelOneObjectA);
+        levelThreeObjectA.setLevelTwoObject(levelTwoObjectA);
+
+        LevelTwoObject levelTwoObjectB = new LevelTwoObject();
+        LevelOneObject levelOneObjectB = new LevelOneObject();
+        levelOneObjectB.setPrimitiveFilledObject(getPrimitive2());
+        levelTwoObjectB.setLevelOneObject(levelOneObjectB);
+        levelThreeObjectB.setLevelTwoObject(levelTwoObjectB);
+        levelThreeObjectB.setLevelTwoObject(levelTwoObjectB);
+
+        assertFalse(testObject.checkEquality(levelThreeObjectA, levelThreeObjectB));
+    }
+
+    @Test
+    public void compoundObjectEquality() throws Exception {
+        UltimateCompoundObject objectA = getFullyHydratedCompundObject();
+        UltimateCompoundObject objectB = getFullyHydratedCompundObject();
+
+        assertTrue(testObject.checkEquality(objectA, objectB));
+    }
+
+    @Test
+    public void compoundObjectEqualitySpotcheck() throws Exception {
+        UltimateCompoundObject objectA = getFullyHydratedCompundObject();
+        UltimateCompoundObject objectB = getFullyHydratedCompundObject();
+        objectB.string += "foo";
+
+        assertFalse(testObject.checkEquality(objectA, objectB));
+    }
+
+    @Test
     public void primitivesAreChecked() throws Exception {
         assertTrue(testObject.checkEquality(1234, 1234));
         assertFalse(testObject.checkEquality(1234, 4321));
@@ -201,4 +280,44 @@ public class ReflectiveEqualCheckerTest {
 
         return primitiveFilledObject1;
     }
+
+    private UltimateCompoundObject getFullyHydratedCompundObject() {
+        LevelThreeObject levelThreeObject = new LevelThreeObject();
+        LevelTwoObject levelTwoObject = new LevelTwoObject();
+        LevelOneObject levelOneObject = new LevelOneObject();
+        PrimitiveFilledObject primitiveFilled = getPrimitive1();
+
+        levelOneObject.setPrimitiveFilledObject(primitiveFilled);
+        levelTwoObject.setLevelOneObject(levelOneObject);
+        levelThreeObject.setLevelTwoObject(levelTwoObject);
+
+        UltimateCompoundObject compoundObject = new UltimateCompoundObject();
+        compoundObject.levelOneObject = levelOneObject;
+        compoundObject.levelTwoObject = levelTwoObject;
+        compoundObject.levelThreeObject = levelThreeObject;
+        compoundObject.primitiveFilledObject = primitiveFilled;
+
+        compoundObject.string = "string";
+        compoundObject.integer = 123;
+        compoundObject.classInt = 123;
+        compoundObject.primitiveBoolean = true;
+        compoundObject.classBoolean = true;
+        compoundObject.primitiveDouble = 222.2222d;
+        compoundObject.classDouble = 222.2222d;
+        compoundObject.primitiveFloat = 999.777f;
+        compoundObject.classFloat = 999.777f;
+        compoundObject.primitiveLong = 123456L;
+        compoundObject.classLong = 123456L;
+        compoundObject.bigDecimal = new BigDecimal(55.4467898);
+        compoundObject.bigInteger = new BigInteger("654654");
+        compoundObject.primitiveShort = 1111;
+        compoundObject.classShort = 1112;
+        compoundObject.primitiveChar = 'z';
+        compoundObject.classChar = 'p';
+        compoundObject.charSequence = "charcharchar";
+        compoundObject.primitiveByte = 55;
+        compoundObject.classByte = 24;
+        return compoundObject;
+    }
+
 }
