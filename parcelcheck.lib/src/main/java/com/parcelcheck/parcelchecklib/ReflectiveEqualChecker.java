@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.Assert.fail;
 
@@ -17,37 +16,21 @@ public class ReflectiveEqualChecker {
         if (o1.getClass().equals(o2.getClass())) {
             if (likeAPrimitive(o1)) {
                 return o1.equals(o2);
-
             } else {
-                if(o1.getClass().isAssignableFrom(ArrayList.class)) {
+                if (o1.getClass().isAssignableFrom(ArrayList.class)) {
                     ArrayList list1 = (ArrayList) o1;
                     ArrayList list2 = (ArrayList) o2;
-                    if(list1.size() == list2.size()){
-                        for(Object a : list1){
-                            boolean found = false;
-                            for(Object b : list2){
-                                if(checkEquality(a, b)){
-                                    found = true;
-                                }
-                            }
-                            if(!found){
-                                return false;
-                            }
-
-                        }
-                    } else{
-                        return false;
-                    }
-
-                } else{
+                    return isSubset(list1, list2) && isSubset(list2, list1);
+                } else {
                     for (Field field : o1.getClass().getDeclaredFields()) {
                         field.setAccessible(true);
                         try {
                             Object o1Field = field.get(o1);
                             Object o2Field = field.get(o2);
-                            if(!checkEquality(o1Field, o2Field)){
+                            if (!checkEquality(o1Field, o2Field)) {
                                 return false;
-                            };
+                            }
+                            ;
                         } catch (IllegalAccessException e) {
                             fail("Could not access field");
                             e.printStackTrace();
@@ -58,6 +41,25 @@ public class ReflectiveEqualChecker {
             }
         }
         return false;
+    }
+
+    private boolean isSubset(ArrayList listA, ArrayList listB) {
+        if(listA.size() != listB.size()){
+            return false;
+        }
+        boolean aIncludesB = true;
+        for (Object a : listA) {
+            boolean found = false;
+            for (Object b : listB) {
+                if (checkEquality(a, b)) {
+                    found = true;
+                }
+            }
+            if (!found) {
+                aIncludesB = false;
+            }
+        }
+        return aIncludesB;
     }
 
     private boolean likeAPrimitive(Object o) {

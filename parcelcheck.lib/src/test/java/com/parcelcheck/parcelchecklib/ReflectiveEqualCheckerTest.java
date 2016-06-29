@@ -30,11 +30,35 @@ public class ReflectiveEqualCheckerTest {
     }
 
     @Test
-    public void listInequality() throws Exception {
+    public void listInequalityDifferentObject() throws Exception {
         ArrayList<PrimitiveFilledObject> primitiveFilledListA = new ArrayList<>();
         primitiveFilledListA.add(getPrimitive1());
         ArrayList<PrimitiveFilledObject> primitiveFilledListB = new ArrayList<>();
         primitiveFilledListB.add(getPrimitive2());
+
+        assertFalse(testObject.checkEquality(primitiveFilledListA, primitiveFilledListB));
+    }
+
+    @Test
+    public void listInequalityADoesNotContainB(){
+        ArrayList<PrimitiveFilledObject> primitiveFilledListA = new ArrayList<>();
+        primitiveFilledListA.add(getPrimitive1());
+        primitiveFilledListA.add(getPrimitive2());
+        ArrayList<PrimitiveFilledObject> primitiveFilledListB = new ArrayList<>();
+        primitiveFilledListB.add(getPrimitive2());
+        primitiveFilledListB.add(getPrimitive2());
+
+        assertFalse(testObject.checkEquality(primitiveFilledListA, primitiveFilledListB));
+    }
+
+    @Test
+    public void listInequalityBDoesNotContainA(){
+        ArrayList<PrimitiveFilledObject> primitiveFilledListA = new ArrayList<>();
+        primitiveFilledListA.add(getPrimitive1());
+        primitiveFilledListA.add(getPrimitive1());
+        ArrayList<PrimitiveFilledObject> primitiveFilledListB = new ArrayList<>();
+        primitiveFilledListB.add(getPrimitive2());
+        primitiveFilledListB.add(getPrimitive1());
 
         assertFalse(testObject.checkEquality(primitiveFilledListA, primitiveFilledListB));
     }
